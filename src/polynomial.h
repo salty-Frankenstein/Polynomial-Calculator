@@ -8,10 +8,13 @@ bool Feq(double a, double b);
 class Polynomial{
 public:
 	Polynomial(const std::vector<double>& p, bool high = false);
+	Polynomial operator()(double)const;
 	Polynomial operator+(const Polynomial&)const;
 	Polynomial operator-()const;
 	Polynomial operator-(const Polynomial&)const;
-	//Polynomial operator*(const Polynomial&)const;
+	Polynomial operator*(const Polynomial&)const;
+	Polynomial Derivation()const;
+	Polynomial Integral(double low, double up)const;	
 	void Show();
 private:
 	void Standardize();
