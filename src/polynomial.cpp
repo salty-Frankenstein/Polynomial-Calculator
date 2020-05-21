@@ -38,7 +38,7 @@ Polynomial Polynomial::operator+(const Polynomial& x)const{
 	}
 	else{
 		for(int i = mi + 1; i <= x.maxTerm; i++)
-			ans.push_back(coef[i]);
+			ans.push_back(x.coef[i]);
 	}
 	return Polynomial(ans);
 }
