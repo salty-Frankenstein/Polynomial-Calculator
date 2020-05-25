@@ -15,19 +15,31 @@ using InteRes = std::pair<double, std::pair<double, std::string>>;
 #define INTE_UP(x) (x.second.first)
 #define INTE_OPER(x) (x.second.second)
 
+enum ExprType { 
+	E_PAR, 		//parentheses
+	E_DER,		//derivation
+	E_INT,		//integral
+	E_POL,		//polynomial
+	E_ADD, 		//addition
+	E_MUL,		//multipication
+};
+
 class Parser{
 public:
-	static ExprP Parse(std::string);
+	bool BindName(std::string name, const std::vector<double> &coef);
+	std::string ReadName(std::string&);
+	ExprP Parse(std::string);
 	static Polynomial Eval(ExprP);
 
-	static ReduceRes ReduceAdd(std::string);
+	std::map<std::string, Polynomial> nameMap;
+	const static std::regex patterns[];
+
+//private:
+	static ReduceRes ReduceAdd(std::string);	
 	static ReduceRes ReduceMul(std::string);
 	static std::string ReduceDer(std::string);
 	static InteRes ReduceInte(std::string);
 	static std::string ReducePar(std::string);
-private:
-	std::map<std::string, Polynomial> nameMap;
-	const static std::regex patterns[];
 };
 
 #endif //!PARSER_H

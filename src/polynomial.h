@@ -7,6 +7,7 @@ bool Feq(double a, double b);
 
 class Polynomial{
 public:
+	Polynomial() = default;
 	Polynomial(const std::vector<double>& p, bool high = false);
 	Polynomial operator()(double)const;
 	Polynomial operator+(const Polynomial&)const;

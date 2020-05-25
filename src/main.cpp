@@ -4,15 +4,33 @@
 using namespace std;
 
 int main(){
+	Parser parser;
+	int num;
+	string name;
+	vector<double> v;
+	while(1){
+	v.clear();
+	cin >> num >> name;
+	for(int i = 1;i <= num; i++){
+		int t;
+		cin >> t;
+		v.push_back(t);
+	}
+	cout << parser.BindName(name, v) << endl;
+	parser.nameMap[name].Show();
+	cout<<endl;
+	}
+	return 0;
 	auto res1 = Parser::ReduceAdd("abdj+sk3+3l");
 	auto res2 = Parser::ReduceMul("anks*dfa*df");
 	auto res3 = Parser::ReduceDer("djfk!");
 	auto res4 = Parser::ReduceInte("$[1.234,.342](f+g)");
-
+	auto res5 = Parser::ReducePar("(djdjdjd)");
 	cout << OPERL(res1) << ' ' << OPERR(res1) << endl;
 	cout << OPERL(res2) << ' ' << OPERR(res2) << endl;
 	cout << res3 << endl;
 	cout << INTE_LOW(res4) << ' ' << INTE_UP(res4) << ' ' << INTE_OPER(res4) << endl;
+	cout << res5 << endl;
 	return 0;
 	Polynomial p({2,0,-3,5,-0,-.1,-1});
 	p.Show();
