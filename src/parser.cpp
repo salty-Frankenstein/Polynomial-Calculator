@@ -60,7 +60,7 @@ ExprP Parser::Parse(string str){
 	bool matched, del;
 	while(!str.empty()){
 		del = false;
-		cout << "now parsing: "<< str<<endl;
+		//cout << "now parsing: "<< str<<endl;
 		type = E_POL;
 		//matching all patterns from the head of the string
 
@@ -78,19 +78,20 @@ ExprP Parser::Parse(string str){
 					type = ExprType(i);
 					del = true;
 					strm = s.str();
-					cout << "recent matched:" << s.str()<<endl;
+					//cout << "recent matched:" << s.str()<<endl;
 					break;
 				}
 			}
 		}
 
 		// DEBUG
+		/*
 		if(type == E_POL){
 			cout << "not matched" << endl;
 		}
 		else{
 				cout << "matched:" << strm << " type:" << type << endl;
-		}
+		}*/
 		
 		//if matched
 		if(type != E_POL){
@@ -142,17 +143,17 @@ ExprP Parser::Parse(string str){
 
 		// DEBUG
 
-		cout << type << ' ' << symSt.size() << ' ' << valSt.size()<<endl;
+		//cout << type << ' ' << symSt.size() << ' ' << valSt.size()<<endl;
 		//if none of these, it's a name binding
 		if(type == E_POL){
 			auto name = ReadName(str);
 			// DEBUG
-			cout << name <<' '<<str<< endl;
-			cout << "---\n";
+			//cout << name <<' '<<str<< endl;
+			//cout << "---\n";
 			auto i = nameMap.find(name);
 			//name not found
 			if(i == nameMap.end())throw "syntax error";
-			cout << "found\n";
+			//cout << "found\n";
 			//processing multiply
 			if(!symSt.empty() && symSt.top() == E_MUL){
 				if(valSt.empty())throw "syntax error";
@@ -174,7 +175,8 @@ ExprP Parser::Parse(string str){
 		
 	}
 	
-		cout << type << ' ' << symSt.size() << ' ' << valSt.size()<<endl;
+	//	cout << type << ' ' << symSt.size() << ' ' << valSt.size()<<endl;
+	
 	//end of parsing, pop all the stacks to get the final expression
 	//there should be only E_ADD in the stack
 
@@ -188,8 +190,9 @@ ExprP Parser::Parse(string str){
 		valSt.pop();
 		symSt.pop();
 	}
-	cout << "arrived:";
-	res->Eval().Show();cout<<endl;
+	//cout << "arrived:";
+	//res->Eval().Show();cout<<endl;
+	if(!valSt.empty())throw "syntax error";
 	return res;
 }
 
@@ -206,34 +209,6 @@ string Parser::ReadName(string& s){
 		i--;
 	}
 	return res;
-}
-
-ReduceRes Parser::ReduceAdd(string s){
-	string opl, opr;
-	bool isl = true;
-	for(auto c : s){
-		if(c == '+' && isl){
-			isl = false;
-			continue;
-		}
-		if(isl)opl += c;
-		else opr += c;
-	}
-	return {opl, opr};
-}
-
-ReduceRes Parser::ReduceMul(string s){
-	string opl, opr;
-	bool isl = true;
-	for(auto c : s){
-		if(c == '*' && isl){
-			isl = false;
-			continue;
-		}
-		if(isl)opl += c;
-		else opr += c;
-	}
-	return {opl, opr};
 }
 
 string Parser::ReduceDer(string s){

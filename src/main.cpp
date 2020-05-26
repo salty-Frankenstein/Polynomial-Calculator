@@ -36,13 +36,9 @@ int main(){
 	}
 	return 0;
 	
-	auto res1 = Parser::ReduceAdd("abdj+sk3+3l");
-	auto res2 = Parser::ReduceMul("anks*dfa*df");
 	auto res3 = Parser::ReduceDer("djfk!");
 	auto res4 = Parser::ReduceInte("$[1.234,.342](f+g)");
 	auto res5 = Parser::ReducePar("(djdjdjd)");
-	cout << OPERL(res1) << ' ' << OPERR(res1) << endl;
-	cout << OPERL(res2) << ' ' << OPERR(res2) << endl;
 	cout << res3 << endl;
 	cout << INTE_LOW(res4) << ' ' << INTE_UP(res4) << ' ' << INTE_OPER(res4) << endl;
 	cout << res5 << endl;
