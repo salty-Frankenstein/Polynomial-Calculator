@@ -7,18 +7,41 @@ using namespace std;
 
 const regex Parser::patterns[] = {
 	regex("\\w+\\!(?!\\!)"),		//derivation
-	regex("\\$\\[.+,.+\\][^\\+\\*\\(]+"
-		"|\\$\\[.+,.+\\]\\(.+\\)"),	//integral
+	regex("\\$\\[[^\\]]+,[^\\]]+\\][^\\+\\*\\(]+"),	//integral
 	//regex("\\(.+\\)"),			//parentheses
 	//regex("[^\\+]+\\+"),		//add
 	//regex("[^\\*]+\\*"),		//multiply
 };
 
+pair<ExprType, string> Parser::MatchDer(string& s){
+	//cout << "try match der:" << s<<endl;
+	int num = 0;
+	string res;
+	regex pat("\\$\\[[^\\]]+,[^\\]]+\\]\\(");
+	smatch sm;
+	bool matched = regex_search(s, sm, pat);
+	if(matched && sm[0].first == s.begin() && sm.str().size() != 0){
+		res += sm.str();
+		s.erase(sm[0].first, sm[0].second);
+		num = 1;
+		for(auto i = s.begin(); i != s.end(); i++){
+			if(*i == '(')num++;
+			if(*i == ')')num--;
+			res += *i;
+			s.erase(i);
+			i--;
+			if(num == 0)return {E_INT, res};
+		}
+	}
+	return {E_POL, ""};
+}
+
 pair<ExprType, string> Parser::MatchPar(string& s){
 	int num = 0;
-	if(s[0] != '(')
-		return {E_POL, ""};
 	string res;
+	if(s[0] != '('){
+		return {E_POL, ""};
+	}
 	for(auto i = s.begin(); i != s.end(); i++){
 		if(*i == '(')num++;
 		if(*i == ')')num--;
@@ -83,9 +106,16 @@ ExprP Parser::Parse(string str){
 				}
 			}
 		}
-
+		//try matching derivation with parentheses
+		if(type == E_POL){
+			par = MatchDer(str);
+			if(par.first != E_POL){
+				type = par.first;
+				strm = par.second;
+			}
+		}
 		// DEBUG
-		/*
+		/*		
 		if(type == E_POL){
 			cout << "not matched" << endl;
 		}

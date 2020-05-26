@@ -36,6 +36,7 @@ public:
 
 //private:
 	std::pair<ExprType, std::string> MatchPar(std::string&);
+	std::pair<ExprType, std::string> MatchDer(std::string&);
 	static std::string ReduceDer(std::string);
 	static InteRes ReduceInte(std::string);
 	static std::string ReducePar(std::string);
