@@ -1,8 +1,6 @@
 #include"parser.h"
 #include<sstream>
 #include<stack>
-#include<cstdlib>
-#include<iostream>
 using namespace std;
 
 const regex Parser::patterns[] = {
@@ -226,7 +224,6 @@ ExprP Parser::Parse(string str){
 	return res;
 }
 
-
 string Parser::ReadName(string& s){
 	auto isAlpha = [](char c){
 		return c >= 'a' && c <= 'z'
@@ -269,5 +266,9 @@ string Parser::ReducePar(string s){
 	s.erase(s.begin());
 	s.pop_back();
 	return s;
+}
+
+Polynomial Parser::Eval(ExprP expr){
+	return expr->Eval();
 }
 
