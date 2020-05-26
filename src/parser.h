@@ -16,10 +16,10 @@ using InteRes = std::pair<double, std::pair<double, std::string>>;
 #define INTE_OPER(x) (x.second.second)
 
 enum ExprType { 
-	E_PAR, 		//parentheses
 	E_DER,		//derivation
 	E_INT,		//integral
 	E_POL,		//polynomial
+	E_PAR, 		//parentheses
 	E_ADD, 		//addition
 	E_MUL,		//multipication
 };
@@ -35,6 +35,7 @@ public:
 	const static std::regex patterns[];
 
 //private:
+	std::pair<ExprType, std::string> MatchPar(std::string&);
 	static ReduceRes ReduceAdd(std::string);	
 	static ReduceRes ReduceMul(std::string);
 	static std::string ReduceDer(std::string);

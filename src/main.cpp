@@ -9,18 +9,33 @@ int main(){
 	string name;
 	vector<double> v;
 	while(1){
-	v.clear();
-	cin >> num >> name;
-	for(int i = 1;i <= num; i++){
-		int t;
-		cin >> t;
-		v.push_back(t);
+		v.clear();
+		cin >> num;
+		if(num == 0)break;
+		cin >> name;
+		for(int i = 1;i <= num; i++){
+			int t;
+			cin >> t;
+			v.push_back(t);
+		}
+		cout << parser.BindName(name, v) << endl;
+		parser.nameMap[name].Show();
+		cout << endl;
 	}
-	cout << parser.BindName(name, v) << endl;
-	parser.nameMap[name].Show();
-	cout<<endl;
+	while(1){
+	string expr;
+	cin >> expr;
+	try{
+		parser.Parse(expr)->Eval().Show();
+		cout << endl;
+	}
+	catch(char const* c){
+		cerr << c << endl;
+	}
+	cin.clear();
 	}
 	return 0;
+	
 	auto res1 = Parser::ReduceAdd("abdj+sk3+3l");
 	auto res2 = Parser::ReduceMul("anks*dfa*df");
 	auto res3 = Parser::ReduceDer("djfk!");
