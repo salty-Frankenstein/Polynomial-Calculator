@@ -14,6 +14,7 @@ public:
 	Polynomial operator-()const;
 	Polynomial operator-(const Polynomial&)const;
 	Polynomial operator*(const Polynomial&)const;
+	Polynomial operator/(const Polynomial&)const;
 	Polynomial Derivation()const;
 	Polynomial Integral(double low, double up)const;
 

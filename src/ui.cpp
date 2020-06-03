@@ -27,6 +27,9 @@ void UI::Run(){
 		case INVERSE:
 			Inverse();
 			break;
+		case DIVIDE:
+			Divide();
+			break;
 		case ROOT:
 			Root();
 			break;
@@ -39,7 +42,7 @@ void UI::Run(){
 void UI::ShowUI(){
 	system("clear");
 	cout << "================多项式计算器===============" << endl;
-	cout << "1.输入 2.混合运算 3.求逆 5.求根 6.查看 7.退出" << endl;
+	cout << "1.输入 2.混合运算 3.求逆 4.除法、取模运算 5.求根 6.查看 7.退出" << endl;
 	cout << "===========================================" << endl;
 }
 
@@ -55,6 +58,9 @@ void UI::GetCommand(){
 		break;
 	case '3':
 		state = INVERSE;
+		break;
+	case '4':
+		state = DIVIDE;
 		break;
 	case '5':
 		state = ROOT;
@@ -154,6 +160,36 @@ void UI::Inverse(){
 			cout << "逆元不存在";
 		}
 	}
+	cout << '\n' << "是否继续(y/n):";
+	char c;
+	cin >> c;
+	if(c != 'y')
+		state = MENU;
+}
+
+void UI::Divide(){
+	string a, b;
+	cout << "输入被除数多项式名：";
+	cin >> a;
+	cout << "输入除数多项式名：";
+	cin >> b;
+	auto resA = parser.nameMap.find(a),
+	resB = parser.nameMap.find(b);
+	if(resA == parser.nameMap.end() || resB == parser.nameMap.end()){
+		cout << "未定义的多项式";
+	}
+	else{
+		try{
+			auto res = (resA->second / resB->second);
+			cout << "商为：";
+			res.Show();
+			cout << "，余数为";
+			(resA->second - res * resB->second).Show();
+		}
+		catch(char const*){
+			cout << "除数为0";
+		}
+	}	
 	cout << '\n' << "是否继续(y/n):";
 	char c;
 	cin >> c;

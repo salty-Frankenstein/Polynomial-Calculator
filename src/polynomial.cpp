@@ -1,6 +1,7 @@
 #include"polynomial.h"
 #include<cmath>
 #include<iostream>
+#include<algorithm>
 using namespace std;
 
 bool Feq(double a, double b){
@@ -68,6 +69,24 @@ Polynomial Polynomial::operator*(const Polynomial& x)const{
 			ans[i + j] += coef[i] * x.coef[j];
 	}
 	return Polynomial(ans);
+}
+
+Polynomial Polynomial::operator/(const Polynomial& x)const{
+	if(x.maxTerm == 0 && x.coef[0] == 0)
+		throw "div by 0";
+	int n = maxTerm, m = x.maxTerm;
+	if(n < m){
+		return Polynomial({0});
+	}
+	vector<double> a(maxTerm + 1), b(x.maxTerm + 1);
+	reverse_copy(coef.begin(), coef.end(), a.begin());
+	reverse_copy(x.coef.begin(), x.coef.end(), b.begin());
+	b.resize(n - m + 1);
+	Polynomial ans = Polynomial(b).Inverse() * Polynomial(a);
+	ans.coef.resize(n - m + 1);
+	reverse(ans.coef.begin(), ans.coef.end());
+	ans.Standardize();
+	return ans;
 }
 
 Polynomial Polynomial::Derivation()const{
@@ -138,8 +157,10 @@ void Polynomial::Show(){
 		else if(!Feq(coef[i], 1.0)){
 			cout << coef[i];
 		}
-		cout << "x^" << i << ' ';
+		if(i == 1) cout << "x ";
+		else cout << "x^" << i << ' ';
 	}
+
 	if(Feq(coef[0], 0.0))return;
 	if(coef[0] > 0)cout << '+';
 	cout << coef[0];

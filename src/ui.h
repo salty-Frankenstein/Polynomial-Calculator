@@ -3,7 +3,7 @@
 
 #include"parser.h"
 
-enum State { MENU, INPUT, CALCULATE, INVERSE, ROOT, SHOW, EXIT};
+enum State { MENU, INPUT, CALCULATE, INVERSE, DIVIDE, ROOT, SHOW, EXIT};
 
 class UI{
 public:
@@ -19,6 +19,7 @@ private:
 	void Calculate();
 	void Root();
 	void Inverse();
+	void Divide();
 	State state;
 };
 
