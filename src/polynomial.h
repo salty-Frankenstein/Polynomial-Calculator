@@ -15,7 +15,10 @@ public:
 	Polynomial operator-(const Polynomial&)const;
 	Polynomial operator*(const Polynomial&)const;
 	Polynomial Derivation()const;
-	Polynomial Integral(double low, double up)const;	
+	Polynomial Integral(double low, double up)const;
+
+	double ToNum()const;
+	double Root(double x0)const;
 	void Show();
 private:
 	void Standardize();

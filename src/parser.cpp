@@ -259,6 +259,8 @@ InteRes Parser::ReduceInte(string s){
 	double up, low;
 	ssup >> up;
 	sslow >> low;
+	if(ssup.fail() || sslow.fail())
+		throw "syntax error";
 	return {low, {up, sres}};
 }
 

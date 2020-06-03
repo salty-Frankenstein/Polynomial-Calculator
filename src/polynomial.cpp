@@ -91,6 +91,22 @@ Polynomial Polynomial::Integral(double low, double up)const{
 	return Polynomial({p(up) - p(low)});
 }
 
+double Polynomial::ToNum()const{
+	auto res = (*this)(0);
+	return res.coef[0];
+}
+
+double Polynomial::Root(double x)const{
+	double x0;
+	do{
+		x0 = x;
+		if(Feq((this->Derivation())(x).ToNum(), 0.0))
+			throw "no root";
+		x = x0 - (*this)(x).ToNum() / (this->Derivation())(x).ToNum();
+	}while(!Feq(x, x0));
+	return x;
+}
+
 void Polynomial::Show(){
 	if(maxTerm == 0){
 		cout << coef[0];

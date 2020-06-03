@@ -24,6 +24,10 @@ void UI::Run(){
 		case CALCULATE:
 			Calculate();
 			break;
+		case ROOT:
+			Root();
+			break;
+		defalt:break;
 		}
 	}
 	system("clear");
@@ -32,7 +36,7 @@ void UI::Run(){
 void UI::ShowUI(){
 	system("clear");
 	cout << "================多项式计算器===============" << endl;
-	cout << "1.输入 2.混合运算 6.查看 7.退出" << endl;
+	cout << "1.输入 2.混合运算 5.求根 6.查看 7.退出" << endl;
 	cout << "===========================================" << endl;
 }
 
@@ -45,6 +49,9 @@ void UI::GetCommand(){
 		break;
 	case '2':
 		state = CALCULATE;
+		break;
+	case '5':
+		state = ROOT;
 		break;
 	case '6':
 		state = SHOW;
@@ -65,10 +72,12 @@ void UI::GetInput(){
 	vector<double> v;
 	cout << "多项式长度：";
 	cin >> num;
+	if(CheckCin())return;
 	cout << "请输入：" << endl;
 	for(int i = 1; i <= num; i++){
 		int t;
 		cin >> t;
+		if(CheckCin())return;
 		v.push_back(t);
 	}
 	cout << "多项式名为：";
@@ -120,5 +129,41 @@ void UI::Calculate(){
 	cin >> c;
 	if(c != 'y')
 		state = MENU;
+}
+
+void UI::Root(){
+	cout << "多项式名为：";
+	string name;
+	cin >> name;
+	auto res = parser.nameMap.find(name);
+	if(res == parser.nameMap.end()){
+		cout << "未定义的多项式";
+	}
+	else{
+		try{
+			auto poly = res->second;
+			auto ans = poly.Root(1.41);
+			cout << name << "的存在实根为：" << ans;
+		}
+		catch(char const*){
+			cout << "无实根";
+		}
+	}
+	cout << '\n' << "是否继续(y/n):";
+	char c;
+	cin >> c;
+	if(c != 'y')
+		state = MENU;
+}
+
+bool UI::CheckCin(){
+	string buf;
+	if(cin.fail()){
+		cout << "输入错误！" << endl;
+		cin.clear();
+		cin >> buf;
+		return true;
+	}
+	return false;
 }
 
