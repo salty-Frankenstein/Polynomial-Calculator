@@ -19,6 +19,7 @@ public:
 
 	double ToNum()const;
 	double Root(double x0)const;
+	Polynomial Inverse()const;
 	void Show();
 private:
 	void Standardize();

@@ -24,6 +24,9 @@ void UI::Run(){
 		case CALCULATE:
 			Calculate();
 			break;
+		case INVERSE:
+			Inverse();
+			break;
 		case ROOT:
 			Root();
 			break;
@@ -36,7 +39,7 @@ void UI::Run(){
 void UI::ShowUI(){
 	system("clear");
 	cout << "================多项式计算器===============" << endl;
-	cout << "1.输入 2.混合运算 5.求根 6.查看 7.退出" << endl;
+	cout << "1.输入 2.混合运算 3.求逆 5.求根 6.查看 7.退出" << endl;
 	cout << "===========================================" << endl;
 }
 
@@ -49,6 +52,9 @@ void UI::GetCommand(){
 		break;
 	case '2':
 		state = CALCULATE;
+		break;
+	case '3':
+		state = INVERSE;
 		break;
 	case '5':
 		state = ROOT;
@@ -125,6 +131,30 @@ void UI::Calculate(){
 		cout << "表达式错误，";
 	}
 	cout << "是否继续(y/n):";
+	char c;
+	cin >> c;
+	if(c != 'y')
+		state = MENU;
+}
+
+void UI::Inverse(){
+	cout << "多项式名为：";
+	string name;
+	cin >> name;
+	auto res = parser.nameMap.find(name);
+	if(res == parser.nameMap.end()){
+		cout << "未定义的多项式";
+	}
+	else{
+		try{
+			cout << name << "的逆元为：";
+			res->second.Inverse().Show();
+		}
+		catch(char const*){
+			cout << "逆元不存在";
+		}
+	}
+	cout << '\n' << "是否继续(y/n):";
 	char c;
 	cin >> c;
 	if(c != 'y')

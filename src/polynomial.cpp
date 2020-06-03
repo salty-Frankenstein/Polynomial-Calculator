@@ -98,13 +98,27 @@ double Polynomial::ToNum()const{
 
 double Polynomial::Root(double x)const{
 	double x0;
+	int time = 0;
 	do{
+		time++;
 		x0 = x;
-		if(Feq((this->Derivation())(x).ToNum(), 0.0))
+		if(time > 10000 || Feq((this->Derivation())(x).ToNum(), 0.0))
 			throw "no root";
 		x = x0 - (*this)(x).ToNum() / (this->Derivation())(x).ToNum();
 	}while(!Feq(x, x0));
 	return x;
+}
+
+Polynomial Polynomial::Inverse()const{
+	vector<double> b(maxTerm + 1);
+	if(coef[0] == 0)throw "no inv";
+	b[0] = 1 / coef[0];
+	for(int k = 1; k <= maxTerm; k++){
+		for(int i = 0; i < k; i++){
+			b[k] += b[i] * (- coef[k-i] / coef[0]);
+		}
+	}
+	return Polynomial(b);
 }
 
 void Polynomial::Show(){
